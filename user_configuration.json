@@ -1,0 +1,141 @@
+{
+    "additional-repositories": [],
+    "archinstall-language": "English",
+    "audio_config": null,
+    "bootloader": "Grub",
+    "config_version": "3.0.1",
+    "disk_config": {
+        "config_type": "default_layout",
+        "device_modifications": [
+            {
+                "device": "/dev/sda",
+                "partitions": [
+                    {
+                        "btrfs": [],
+                        "dev_path": null,
+                        "flags": [
+                            "boot"
+                        ],
+                        "fs_type": "fat32",
+                        "mount_options": [],
+                        "mountpoint": "/boot",
+                        "obj_id": "8fa3aede-bcd3-406e-a0e1-b57f3a315995",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "GiB",
+                            "value": 1
+                        },
+                        "start": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "MiB",
+                            "value": 3
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    },
+                    {
+                        "btrfs": [],
+                        "dev_path": null,
+                        "flags": [],
+                        "fs_type": "ext4",
+                        "mount_options": [],
+                        "mountpoint": "/",
+                        "obj_id": "8ec7a824-d8ba-40a6-b86e-99b922516429",
+                        "size": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "B",
+                            "value": 33282850816
+                        },
+                        "start": {
+                            "sector_size": {
+                                "unit": "B",
+                                "value": 512
+                            },
+                            "unit": "B",
+                            "value": 1076887552
+                        },
+                        "status": "create",
+                        "type": "primary"
+                    }
+                ],
+                "wipe": true
+            }
+        ]
+    },
+    "disk_encryption": null,
+    "hostname": "ymir",
+    "kernels": [
+        "linux"
+    ],
+    "locale_config": {
+        "kb_layout": "uk",
+        "sys_enc": "UTF-8",
+        "sys_lang": "en_US"
+    },
+    "mirror_config": {
+        "custom_mirrors": [],
+        "mirror_regions": {
+            "United Kingdom": [
+                "{\"url\":\"http://mirror.bytemark.co.uk/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/bytemark.co.uk/410/\",\"delay\":6490,\"last_sync\":\"2025-01-17T15:25:39Z\",\"duration_avg\":0.3045904833694984,\"duration_stddev\":0.36987009517491953,\"completion_pct\":1.0,\"score\":2}",
+                "{\"url\":\"https://mirror.bytemark.co.uk/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/bytemark.co.uk/1162/\",\"delay\":6548,\"last_sync\":\"2025-01-17T15:25:39Z\",\"duration_avg\":0.4453992827185269,\"duration_stddev\":0.5471980536985395,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"http://www.mirrorservice.org/sites/ftp.archlinux.org/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/mirrorservice.org/487/\",\"delay\":10918,\"last_sync\":\"2025-01-17T16:05:02Z\",\"duration_avg\":0.3523626689253182,\"duration_stddev\":0.4981850193873573,\"completion_pct\":1.0,\"score\":4}",
+                "{\"url\":\"https://www.mirrorservice.org/sites/ftp.archlinux.org/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/mirrorservice.org/1163/\",\"delay\":10846,\"last_sync\":\"2025-01-17T16:05:02Z\",\"duration_avg\":0.4194046661771577,\"duration_stddev\":0.3952054771188064,\"completion_pct\":1.0,\"score\":4}",
+                "{\"url\":\"http://lon.mirror.rackspace.com/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/rackspace.com/667/\",\"delay\":22241,\"last_sync\":\"2025-01-17T10:30:14Z\",\"duration_avg\":0.27173165082931516,\"duration_stddev\":0.28278571989290213,\"completion_pct\":1.0,\"score\":7}",
+                "{\"url\":\"https://lon.mirror.rackspace.com/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/rackspace.com/1320/\",\"delay\":22242,\"last_sync\":\"2025-01-17T10:30:14Z\",\"duration_avg\":0.2430025964975357,\"duration_stddev\":0.24760749577680585,\"completion_pct\":1.0,\"score\":7}",
+                "{\"url\":\"http://gb.mirrors.cicku.me/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/cicku.me/2114/\",\"delay\":682,\"last_sync\":\"2025-01-17T16:11:04Z\",\"duration_avg\":0.4187458074755139,\"duration_stddev\":0.30949783118591623,\"completion_pct\":0.993103448275862,\"score\":1}",
+                "{\"url\":\"https://gb.mirrors.cicku.me/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/cicku.me/2115/\",\"delay\":682,\"last_sync\":\"2025-01-17T16:11:04Z\",\"duration_avg\":0.4620919144815869,\"duration_stddev\":0.37047098924367305,\"completion_pct\":0.993103448275862,\"score\":1}",
+                "{\"url\":\"http://mirrors.ukfast.co.uk/sites/archlinux.org/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/ukfast.co.uk/1107/\",\"delay\":8951,\"last_sync\":\"2025-01-17T12:02:01Z\",\"duration_avg\":0.2963143184267241,\"duration_stddev\":0.5421613783911595,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"https://mirrors.ukfast.co.uk/sites/archlinux.org/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/ukfast.co.uk/1108/\",\"delay\":8935,\"last_sync\":\"2025-01-17T12:02:01Z\",\"duration_avg\":0.48786978886045257,\"duration_stddev\":0.4852797055211905,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"http://archlinux.uk.mirror.allworldit.com/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/allworldit.com/1224/\",\"delay\":76,\"last_sync\":\"2025-01-17T16:14:06Z\",\"duration_avg\":0.35732254981994627,\"duration_stddev\":0.5173406563552991,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://archlinux.uk.mirror.allworldit.com/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/allworldit.com/1225/\",\"delay\":76,\"last_sync\":\"2025-01-17T16:14:06Z\",\"duration_avg\":0.3931982369258486,\"duration_stddev\":0.515698811170139,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"http://mirror.netweaver.uk/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/netweaver.uk/1248/\",\"delay\":5632,\"last_sync\":\"2025-01-17T15:23:39Z\",\"duration_avg\":0.40669635236263274,\"duration_stddev\":0.64693481412613,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"https://mirror.netweaver.uk/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/netweaver.uk/1247/\",\"delay\":5698,\"last_sync\":\"2025-01-17T15:23:39Z\",\"duration_avg\":0.42447727024555204,\"duration_stddev\":0.6071181073262136,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"http://mirrors.melbourne.co.uk/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/melbourne.co.uk/1382/\",\"delay\":1792,\"last_sync\":\"2025-01-17T15:45:00Z\",\"duration_avg\":0.34710554090039486,\"duration_stddev\":0.45807116624396726,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://mirrors.melbourne.co.uk/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/melbourne.co.uk/1383/\",\"delay\":1793,\"last_sync\":\"2025-01-17T15:45:00Z\",\"duration_avg\":0.36788766630764663,\"duration_stddev\":0.49046893507845696,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://london.mirror.pkgbuild.com/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/geo.mirror.pkgbuild.com/1931/\",\"delay\":64,\"last_sync\":\"2025-01-17T16:15:06Z\",\"duration_avg\":0.32862390814156367,\"duration_stddev\":0.4364252604880034,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://repo.slithery.uk/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/slithery.uk/1841/\",\"delay\":4135,\"last_sync\":\"2025-01-17T14:17:03Z\",\"duration_avg\":0.6350632309913635,\"duration_stddev\":0.6825197811508453,\"completion_pct\":1.0,\"score\":2}",
+                "{\"url\":\"http://mirror.vinehost.net/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/vinehost.net/1935/\",\"delay\":24854,\"last_sync\":\"2025-01-17T10:30:14Z\",\"duration_avg\":0.2097412019968033,\"duration_stddev\":0.22259484918451694,\"completion_pct\":1.0,\"score\":7}",
+                "{\"url\":\"https://mirror.vinehost.net/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/vinehost.net/1936/\",\"delay\":24854,\"last_sync\":\"2025-01-17T10:30:14Z\",\"duration_avg\":0.2846728295087814,\"duration_stddev\":0.2809649728169622,\"completion_pct\":1.0,\"score\":7}",
+                "{\"url\":\"https://mirror.st2projects.com/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/st2projects.com/2062/\",\"delay\":9861,\"last_sync\":\"2025-01-17T15:25:39Z\",\"duration_avg\":0.3225422650575638,\"duration_stddev\":0.2857053335704156,\"completion_pct\":1.0,\"score\":3}",
+                "{\"url\":\"http://mirror.server.net/archlinux/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/server.net/2151/\",\"delay\":2019,\"last_sync\":\"2025-01-17T16:04:02Z\",\"duration_avg\":0.22260969918349693,\"duration_stddev\":0.3029354591634909,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://mirror.server.net/archlinux/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/server.net/2150/\",\"delay\":2019,\"last_sync\":\"2025-01-17T16:04:02Z\",\"duration_avg\":0.4080589557516164,\"duration_stddev\":0.5195492774133853,\"completion_pct\":1.0,\"score\":1}",
+                "{\"url\":\"https://mirrors.xhosts.co.uk/arch/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":false,\"details\":\"https://archlinux.org/mirrors/xhosts.co.uk/2154/\",\"delay\":15398,\"last_sync\":\"2025-01-17T15:59:02Z\",\"duration_avg\":0.4882301867008209,\"duration_stddev\":0.6192214423806525,\"completion_pct\":1.0,\"score\":5}",
+                "{\"url\":\"http://repo.c48.uk/arch/\",\"protocol\":\"http\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/c48.uk/2164/\",\"delay\":3072,\"last_sync\":\"2025-01-17T15:13:34Z\",\"duration_avg\":0.5043390454917118,\"duration_stddev\":0.5455820712865348,\"completion_pct\":1.0,\"score\":2}",
+                "{\"url\":\"https://repo.c48.uk/arch/\",\"protocol\":\"https\",\"active\":true,\"country\":\"United Kingdom\",\"country_code\":\"GB\",\"isos\":true,\"ipv4\":true,\"ipv6\":true,\"details\":\"https://archlinux.org/mirrors/c48.uk/2165/\",\"delay\":3072,\"last_sync\":\"2025-01-17T15:13:34Z\",\"duration_avg\":0.2886538653538145,\"duration_stddev\":0.364238139350566,\"completion_pct\":1.0,\"score\":2}"
+            ]
+        }
+    },
+    "network_config": {
+        "type": "iso"
+    },
+    "ntp": true,
+    "packages": [],
+    "parallel downloads": 0,
+    "profile_config": {
+        "gfx_driver": "All open-source",
+        "greeter": "lightdm-gtk-greeter",
+        "profile": {
+            "custom_settings": {
+                "i3-wm": {}
+            },
+            "details": [
+                "i3-wm"
+            ],
+            "main": "Desktop"
+        }
+    },
+    "save_config": null,
+    "swap": true,
+    "timezone": "UTC",
+    "uki": false,
+    "version": "3.0.1"
+}
