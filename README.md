@@ -8,6 +8,7 @@ as well as physical targets such as Servers, laptops, or embedded devices.
 
 In short, my philosophy regarding automation is:
 > **ALWAYS** do the thing manually* first to gather contextual information.
+> 
 > Incrementatlly automate components of your workflow if it makes sense, but keep it targetted.
 >
 > \*_using CLI tools to enhance your manual efforts is fine, just make sure you know what the tool is doing!_
