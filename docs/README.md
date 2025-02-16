@@ -1,6 +1,6 @@
 # Docs
 
-Miscellaneous is gathered here.
+Miscellaneous documentation and notes are gathered here.
 
 ## Thoughts on Automation
 
