@@ -4,25 +4,22 @@
 set -e
 
 DEPS=(
-  vlc
-  firefox
-  flameshot
-  peek
-  fzf
-  git
-  curl
-  xclip
-  man
-  shellcheck
-  autorandr
-  tmux
-  stow
-  ripgrep
-  neovim
+
+  # applications
+  vlc firefox flameshot peek neovim
+
+  # fonts
+  noto-fonts-emoji noto-fonts-cjk
+
+  # cli-tools
+  man tmux yq git curl pandoc shellcheck stow ripgrep fzf xclip
+
+  # programming languages
   lua53
-  yq
-  noto-fonts-emoji
-  noto-fonts-cjk
+
+  # audio/video
+  autorandr pipewire pipewire-docs wireplumber
+
 )
 
 info() {
@@ -65,3 +62,14 @@ setup_nvim_ide() {
 install_deps
 setup_nvim_ide
 echo "Done!"
+
+# ---------- #
+# References #
+# ---------- #
+#
+# Multimedia:
+# > https://wiki.archlinux.org/title/PipeWire
+# > https://wiki.archlinux.org/title/WirePlumber
+#
+# Keybinding:
+# > https://wiki.archlinux.org/title/Xbindkeys
