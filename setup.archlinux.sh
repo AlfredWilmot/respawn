@@ -38,20 +38,22 @@ info() {
 
 install_deps() {
   info "Installing dependencies"
-  ( set -x; yes | sudo pacman -Suy "${DEPS[@]}" )
+  ( set -x; yes | pacman -Suy "${DEPS[@]}" )
   return 0
 }
 
 setup_docker() {
   info "Setting-up docker"
-  # ensure docker daemon starts when system boots, and start the daemon now
-  systemctl enable docker
-  systemctl start docker
+  (
+    set -x
+    # ensure docker daemon starts when system boots, and start the daemon now
+    systemctl enable docker
+    systemctl start docker
 
-  # create the docker group, add user to it, ensure group is active
-  sudo groupadd docker
-  sudo usermod -aG docker "${USER}"
-  newgrp docker
+    # create the docker group, add user to it
+    groupadd -f docker
+    usermod -aG docker "${USER}"
+  )
 }
 
 setup_rust() {
@@ -78,19 +80,27 @@ setup_nvim_ide() {
     nvim -c PackerSync -c 'sleep 10' -c qa --headless 2> /dev/null
   )
   return 0
-
-  # References #
-  # > https://github.com/wbthomason/packer.nvim/issues/502
 }
+
+if [ "${EUID}" -ne 0 ]; then
+  echo >&2 "Permission Err: must run as root"
+  exit
+fi
+
 
 install_deps
 setup_rust
+setup_docker
 setup_nvim_ide
-echo "Done!"
+
+info 'Done!'
 
 # ---------- #
 # References #
 # ---------- #
+#
+# IDE:
+# > https://github.com/wbthomason/packer.nvim/issues/502
 #
 # Multimedia:
 # > https://wiki.archlinux.org/title/PipeWire
