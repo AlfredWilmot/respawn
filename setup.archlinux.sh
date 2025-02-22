@@ -23,6 +23,7 @@ DEPS=(
 
   # audio/video
   autorandr pipewire pipewire-docs wireplumber
+  alsa-lib alsa-utils
 
   # virtualisation
   vagrant
@@ -82,7 +83,7 @@ setup_nvim_ide() {
   return 0
 }
 
-if [ "${EUID}" -ne 0 ]; then
+if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Permission Err: must run as root"
   exit
 fi
