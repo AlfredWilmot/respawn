@@ -22,8 +22,10 @@ DEPS=(
   rustup
 
   # audio/video
-  autorandr pipewire pipewire-docs wireplumber
+  autorandr
+  pipewire pipewire-docs pipewire-alsa pipewire-pulse pipewire-jack wireplumber
   alsa-lib alsa-utils
+  helvum
 
   # virtualisation
   vagrant
@@ -83,6 +85,17 @@ setup_nvim_ide() {
   return 0
 }
 
+setup_audio_services() {
+  (
+    set -x
+    systemctl --user enable --now pipewire.socket
+    systemctl --user enable --now pipewire-pulse.socket
+    systemctl --user enable --now wireplumber.service
+  )
+}
+# https://wiki.archlinux.org/title/PipeWire
+# https://github.com/mikeroyal/PipeWire-Guide
+
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Permission Err: must run as root"
   exit
@@ -90,9 +103,10 @@ fi
 
 
 install_deps
-setup_rust
 setup_docker
+setup_rust
 setup_nvim_ide
+setup_audio_services
 
 info 'Done!'
 
