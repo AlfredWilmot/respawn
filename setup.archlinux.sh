@@ -34,6 +34,7 @@ DEPS=(
 
   # python
   ruff
+  pyright
 
   # bash
   shellcheck
