@@ -6,7 +6,7 @@ set -e
 DEPS=(
 
   # applications
-  vlc firefox flameshot peek neovim
+  vlc firefox flameshot peek neovim discord
 
   # fonts
   noto-fonts-emoji noto-fonts-cjk
