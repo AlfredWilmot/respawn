@@ -23,18 +23,27 @@ DEPS=(
   # -------- #
   # sysadmin #
   # -------- #
-  shadow stow tmux man curl openssh
+  shadow stow tmux man curl openssh npm
 
-  # --------------------- #
-  # programming languages #
-  # --------------------- #
+  # ---------------------------- #
+  # languages, LSPs, and linters #
+  # ---------------------------- #
+
+  # c
+  clang
+
+  # python
+  ruff
+
+  # bash
+  shellcheck
+  bash-language-server
+
+  # lua
   lua53
-  rustup
 
-  # ---------------------------- #
-  # language servers and linters #
-  # ---------------------------- #
-  clang shellcheck ruff
+  # rust
+  rustup
 
   # ----- #
   # audio #
@@ -103,7 +112,7 @@ function setup_nvim_ide() {
   #Install packer plugin manager (https://github.com/wbthomason/packer.nvim)
   PACKER_REPO="https://github.com/wbthomason/packer.nvim"
   PACKER_DST="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
-  PACKER_DIR="$(dirname ${PACKER_DST})"
+  PACKER_DIR="$(dirname "${PACKER_DST}")"
   (
     set -x
     if [ ! -d "${PACKER_DIR}" ]; then
@@ -149,6 +158,9 @@ info 'Done!'
 #
 # IDE:
 # > https://github.com/wbthomason/packer.nvim/issues/502
+#
+# LSP debug:
+# > https://www.reddit.com/r/neovim/comments/zninc5/comment/j0hacys/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 #
 # Multimedia:
 # > https://wiki.archlinux.org/title/PipeWire
