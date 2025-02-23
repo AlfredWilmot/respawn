@@ -12,7 +12,7 @@ DEPS=(
   noto-fonts-emoji noto-fonts-cjk
 
   # cli-tools
-  yq git pandoc shellcheck ripgrep fzf xclip
+  yq git pandoc ripgrep fzf xclip
 
   # sysadmin
   shadow stow tmux man curl openssh
@@ -20,6 +20,9 @@ DEPS=(
   # programming languages
   lua53
   rustup
+
+  # language servers and linters
+  clang shellcheck ruff
 
   # audio/video
   autorandr
@@ -30,6 +33,9 @@ DEPS=(
   # virtualisation
   vagrant
   docker docker-buildx docker-compose
+
+  # shel-prompt
+  starship
 )
 
 info() {
