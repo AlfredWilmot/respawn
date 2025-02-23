@@ -18,12 +18,18 @@ DEPS=(
   # --------- #
   # cli-tools #
   # --------- #
-  yq jq git pandoc ripgrep fzf xclip
+
+  # inpect and manipulate files
+  yq jq git pandoc ripgrep
+
+  # networking
+  openbsd-netcat net-tools tcpdump
 
   # -------- #
   # sysadmin #
   # -------- #
   shadow stow tmux man curl openssh npm
+  fzf xclip
 
   # ---------------------------- #
   # languages, LSPs, and linters #
