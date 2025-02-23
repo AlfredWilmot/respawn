@@ -18,7 +18,7 @@ DEPS=(
   # --------- #
   # cli-tools #
   # --------- #
-  yq git pandoc ripgrep fzf xclip
+  yq jq git pandoc ripgrep fzf xclip
 
   # -------- #
   # sysadmin #
