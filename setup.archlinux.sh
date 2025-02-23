@@ -133,9 +133,9 @@ function setup_audio_services() {
   info "Setting-up audio services"
   (
     set -x
-    systemctl --user enable --now pipewire.socket
-    systemctl --user enable --now pipewire-pulse.socket
-    systemctl --user enable --now wireplumber.service
+    systemctl --machine="${SUDO_USER}@.host" --user enable --now pipewire.socket
+    systemctl --machine="${SUDO_USER}@.host" --user enable --now pipewire-pulse.socket
+    systemctl --machine="${SUDO_USER}@.host" --user enable --now wireplumber.service
   )
 }
 # https://wiki.archlinux.org/title/PipeWire
