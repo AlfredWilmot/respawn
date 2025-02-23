@@ -5,53 +5,79 @@ set -e
 
 DEPS=(
 
-  # applications
+  # ------------ #
+  # GUI/TUI Apps #
+  # ------------ #
   vlc firefox flameshot peek neovim discord
 
-  # fonts
+  # ----- #
+  # fonts #
+  # ----- #
   noto-fonts-emoji noto-fonts-cjk
 
-  # cli-tools
+  # --------- #
+  # cli-tools #
+  # --------- #
   yq git pandoc ripgrep fzf xclip
 
-  # sysadmin
+  # -------- #
+  # sysadmin #
+  # -------- #
   shadow stow tmux man curl openssh
 
-  # programming languages
+  # --------------------- #
+  # programming languages #
+  # --------------------- #
   lua53
   rustup
 
-  # language servers and linters
+  # ---------------------------- #
+  # language servers and linters #
+  # ---------------------------- #
   clang shellcheck ruff
 
-  # audio/video
-  autorandr
+  # ----- #
+  # audio #
+  # ----- #
   pipewire pipewire-docs pipewire-alsa pipewire-pulse pipewire-jack wireplumber
   alsa-lib alsa-utils
-  helvum
 
-  # virtualisation
+  # ------------- #
+  # video capture #
+  # ------------- #
+  zvbi # required by vlc to detect and use video-capture devices (ie. devices located under '/dev/videox')
+
+  # ------------- #
+  # video display #
+  # ------------- #
+  autorandr
+
+  # -------------- #
+  # virtualisation #
+  # -------------- #
   vagrant
   docker docker-buildx docker-compose
 
-  # shel-prompt
+  # ----------- #
+  # shel-prompt #
+  # ----------- #
   starship
 )
 
-info() {
+function info() {
   # prints the passed vars as a string in a visually striking way
   echo "# -------------------------------------------------------- #"
   echo "# $*"
   echo "# -------------------------------------------------------- #"
 }
 
-install_deps() {
+function install_deps() {
   info "Installing dependencies"
   ( set -x; yes | pacman -Suy "${DEPS[@]}" )
   return 0
 }
 
-setup_docker() {
+function setup_docker() {
   info "Setting-up docker"
   (
     set -x
@@ -65,13 +91,13 @@ setup_docker() {
   )
 }
 
-setup_rust() {
+function setup_rust() {
   info "Setting-up rust"
   ( set -x; rustup default stable )
   return 0
 }
 
-setup_nvim_ide() {
+function setup_nvim_ide() {
   info "Setting-up neovim"
 
   #Install packer plugin manager (https://github.com/wbthomason/packer.nvim)
@@ -91,7 +117,8 @@ setup_nvim_ide() {
   return 0
 }
 
-setup_audio_services() {
+function setup_audio_services() {
+  info "Setting-up audio services"
   (
     set -x
     systemctl --user enable --now pipewire.socket
