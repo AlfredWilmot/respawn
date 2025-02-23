@@ -42,6 +42,7 @@ DEPS=(
   # lua
   lua53
   lua-language-server
+  love # love2d (https://love2d.org/)
 
   # rust
   rustup
