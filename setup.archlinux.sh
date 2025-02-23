@@ -41,6 +41,7 @@ DEPS=(
 
   # lua
   lua53
+  lua-language-server
 
   # rust
   rustup
