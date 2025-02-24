@@ -5,9 +5,7 @@ Notes captured during debugging sessions while provisioning.
 This is a problem unique to my linux laptop when used with an older monitor ([PHILIPS 221P3](https://www.philips.com.eg/c-p/221P3LPYES_00/brilliance-led-monitor-with-powersensor#specs)). \
 It seems to have broken following some kernel update last year, because it was working before.
 
-### Diagnostics
-
-System Info:
+#### System Info
 ```bash
 OS: Arch Linux x86_64
 Host: 20F5S4BY00 (ThinkPad X260)
@@ -23,7 +21,7 @@ CPU: Intel(R) Core(TM) i5-6300U (4) @ 3.00 GHz
 GPU: Intel HD Graphics 520 @ 1.00 GHz [Integrated]
 ```
 
-Symptoms:
+#### Symptoms
 - cannot detect monitor using `xrandr` when monitor is connected to computer HDMI port,
 only built-in monitor is available:
     ```bash
@@ -48,6 +46,8 @@ only built-in monitor is available:
             Kernel modules: i915
     ```
 
+#### References
 - [[i915 Skylake] HDMI output does not work with some adapters](https://bugs.freedesktop.org/show_bug.cgi?id=92685)
 - [kernal patch to try](https://patchwork.freedesktop.org/patch/195306/)
 - [how to apply linux kernel patches](https://docs.kernel.org/process/applying-patches.html)
+- [Intel Graphics Arch Linux wiki](https://wiki.archlinux.org/title/Intel_graphics)
