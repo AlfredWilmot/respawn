@@ -8,7 +8,7 @@ DEPS=(
   # ------------ #
   # GUI/TUI Apps #
   # ------------ #
-  vlc firefox flameshot peek neovim discord
+  vlc firefox flameshot peek neovim
 
   # ----- #
   # fonts #
@@ -31,12 +31,12 @@ DEPS=(
   shadow stow tmux man curl openssh npm
   fzf xclip
 
-  # ---------------------------- #
-  # languages, LSPs, and linters #
-  # ---------------------------- #
+  # ----------------------------------- #
+  # languages, LSPs, linters, debuggers #
+  # ----------------------------------- #
 
   # c
-  clang
+  clang gdb
 
   # python
   ruff
@@ -147,17 +147,32 @@ function setup_audio_services() {
 # https://wiki.archlinux.org/title/PipeWire
 # https://github.com/mikeroyal/PipeWire-Guide
 
+function setup_aur_helper() {
+  (
+    PARU_DIR="${SUDO_HOME}/.local/bin/paru"
+    set -x
+    sudo pacman -S --needed base-devel
+    if [ ! -d "${PARU_DIR}" ]; then
+      mkdir -p "${PARU_DIR}"
+      git clone https://aur.archlinux.org/paru.git "${PARU_DIR}"
+    fi
+    cd "${PARU_DIR}"
+    su "nobody" -c "bash -c 'makepkg -si'"
+  )
+}
+# https://github.com/Morganamilo/paru?tab=readme-ov-file#installation
+
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Permission Err: must run as root"
   exit
 fi
-
 
 install_deps
 setup_docker
 setup_rust
 setup_nvim_ide
 setup_audio_services
+#setup_aur_helper
 
 info 'Done!'
 
