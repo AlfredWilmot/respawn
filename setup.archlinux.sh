@@ -23,7 +23,7 @@ DEPS=(
   yq jq git pandoc ripgrep
 
   # networking
-  openbsd-netcat net-tools tcpdump
+  openbsd-netcat net-tools tcpdump networkmanager
 
   # -------- #
   # sysadmin #
@@ -147,6 +147,14 @@ function setup_audio_services() {
 # https://wiki.archlinux.org/title/PipeWire
 # https://github.com/mikeroyal/PipeWire-Guide
 
+function setup_wifi() {
+  (
+    set -x
+    NetworkManager enable
+  )
+}
+# https://wiki.archlinux.org/title/NetworkManager
+
 function setup_aur_helper() {
   (
     PARU_DIR="${SUDO_HOME}/.local/bin/paru"
@@ -172,6 +180,7 @@ setup_docker
 setup_rust
 setup_nvim_ide
 setup_audio_services
+setup_wifi
 #setup_aur_helper
 
 info 'Done!'
