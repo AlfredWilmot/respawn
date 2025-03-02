@@ -155,6 +155,25 @@ function setup_wifi() {
 }
 # https://wiki.archlinux.org/title/NetworkManager
 
+function setup_udev_rules() {
+  (
+    set -x
+
+    # create rules for user to control backlight directly (user must be in 'video' group)
+    local UDEV_RULES='/etc/udev/rules.d'
+    local BACKLIGHT=(/sys/class/backlight/**/brightness)
+
+cat <<EOF | tee "${UDEV_RULES}/backlight.rules"
+RUN+="/bin/chgrp video ${BACKLIGHT[@]}"
+RUN+="/bin/chmod 0664 ${BACKLIGHT[@]}"
+EOF
+
+  )
+}
+# https://unix.stackexchange.com/a/625266/611772
+# https://bbs.archlinux.org/viewtopic.php?pid=1935565#p1935565
+# https://superuser.com/a/1393488
+
 function setup_aur_helper() {
   (
     PARU_DIR="${SUDO_HOME}/.local/bin/paru"
@@ -181,6 +200,7 @@ setup_rust
 setup_nvim_ide
 setup_audio_services
 setup_wifi
+setup_udev_rules
 #setup_aur_helper
 
 info 'Done!'
