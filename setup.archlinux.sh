@@ -9,6 +9,7 @@ DEPS=(
   # GUI/TUI Apps #
   # ------------ #
   vlc firefox flameshot peek neovim
+  zathura zathura-pdf-mupdf
 
   # ----- #
   # fonts #
