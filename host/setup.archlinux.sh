@@ -74,7 +74,7 @@ DEPS=(
   # -------------- #
   # virtualisation #
   # -------------- #
-  vagrant
+  vagrant virtualbox virtualbox-guest-utils-nox virtualbox-host-modules-arch
   docker docker-buildx docker-compose
 
   # ----------- #
@@ -92,7 +92,7 @@ function info() {
 
 function install_deps() {
   info "Installing dependencies"
-  ( set -x; yes | pacman -Suy "${DEPS[@]}" )
+  ( set -x; yes | pacman -Suy --noconfirm "${DEPS[@]}" )
   return 0
 }
 
