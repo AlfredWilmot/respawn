@@ -27,7 +27,7 @@ function setup_dotfiles() {
     set -x
     if [ ! -d "${DOTFILES_DIR}" ]; then
       git clone https://github.com/AlfredWilmot/dotfiles.git "${DOTFILES_DIR}"
-      cd "${DOTFILES_DIR}" && stow .
+      cd "${DOTFILES_DIR}" && stow --adopt . && git restore . # overwrite any existing dotfiles
     fi
   )
 }
@@ -123,7 +123,7 @@ function install_extras() {
 }
 
 
-sudo apt-get install -y "${DEPS[@]}"
+sudo apt-get update && sudo apt-get install -y "${DEPS[@]}"
 setup_dotfiles
 install_nvim_ide
 install_pyenv 3.12
