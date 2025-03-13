@@ -10,7 +10,6 @@ DEPS=(
   lua5.3
   rust-all
   vagrant
-  docker docker-compose
   netcat-openbsd
 )
 
@@ -128,3 +127,4 @@ setup_dotfiles
 install_nvim_ide
 install_pyenv 3.12
 install_extras
+sudo ./tasks/docker-install.sh
