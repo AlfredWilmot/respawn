@@ -1,7 +1,4 @@
-# Troubleshooting
-Notes captured during debugging sessions while provisioning.
-
-## Broken HDMI `ThinkPad X260`
+# Broken HDMI `ThinkPad X260`
 This is a problem unique to my linux laptop when used with an older monitor ([PHILIPS 221P3](https://www.philips.com.eg/c-p/221P3LPYES_00/brilliance-led-monitor-with-powersensor#specs)). \
 It seems to have broken following some kernel update last year, because it was working before.
 

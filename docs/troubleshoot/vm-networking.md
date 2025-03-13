@@ -1,7 +1,7 @@
 # VM networking
 Notes relevant to netowrking VMs.
 
-## Network file-transfer
+## File-transfer between VMs and hosts on a public network
 
 `Vagrant` requires a `NAT` over `eth0` to interact with its VMs,
 however additional bridged adatpers can be configured for transferring files over local networks.
