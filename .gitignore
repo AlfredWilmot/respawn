@@ -1,3 +1,4 @@
 # don't version-control vagrant package binaries and metadata.
 /**/*.vagrant
 /**/*.box
+/**/share
