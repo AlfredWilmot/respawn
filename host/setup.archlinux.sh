@@ -10,6 +10,7 @@ DEPS=(
   # ------------ #
   vlc firefox flameshot peek neovim
   zathura zathura-pdf-mupdf
+  inkscape
 
   # ----- #
   # fonts #
