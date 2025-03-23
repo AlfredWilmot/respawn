@@ -191,6 +191,18 @@ function setup_aur_helper() {
 }
 # https://github.com/Morganamilo/paru?tab=readme-ov-file#installation
 
+
+# additional AUR packages that can be installed via paru.
+AUR_PACKAGES=(
+  grype-bin
+  discord
+)
+function install_aur_packages() {
+  info "Installing AUR packages"
+  ( set -x; yes | paru -Suy --noconfirm "${AUR_PACKAGES[@]}" )
+  return 0
+}
+
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Permission Err: must run as root"
   exit
@@ -204,6 +216,7 @@ setup_audio_services
 setup_wifi
 setup_udev_rules
 #setup_aur_helper
+#install_aur_packages
 
 info 'Done!'
 
