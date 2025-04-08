@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
+
+source utils.sh
 
 PYENV_DST="${HOME}/.pyenv"
 VIRTUALENV_PLUGIN_DST="${HOME}/.pyenv/plugins/pyenv-virtualenv"
-
-RED='\e[0;31m'
-GRN='\e[0;32m'
-RST='\e[0m'
-
-function _err() { echo -e "${RED}!ERR: $* ${RST}" >&2; }
-function _info() { echo -e "${GRN}INFO: $* ${RST}"; }
-
 
 if [ "$(id -u)" -ne 0 ]; then
   _err "must run as root"
