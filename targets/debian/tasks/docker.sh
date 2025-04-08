@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 if [ "$(id -u)" -ne 0 ]; then
   echo >&2 "Permission Err: must run as root"
