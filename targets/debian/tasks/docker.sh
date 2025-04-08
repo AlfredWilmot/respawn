@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
+
+source utils.sh
 
 if [ "$(id -u)" -ne 0 ]; then
-  echo >&2 "Permission Err: must run as root"
+  _err "must run as root"
   exit
 fi
 
@@ -11,8 +13,8 @@ fi
 UNWANTED_PKGS=(docker.io docker-doc docker-compose podman-docker containerd runc)
 sudo apt-get remove "${UNWANTED_PKGS[@]}"
 
-# invoke the docker install script
-curl -fsSL https://get.docker.com | sh
+# invoke the docker install script (if docker is not already installed)
+which docker &> /dev/null  || curl -fsSL https://get.docker.com | sh
 
 # ensure user can access the docker.socket
 sudo groupadd docker

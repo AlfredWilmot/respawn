@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
+
+source utils.sh
 
 NVIM_VER=0.9
 NVIM_DST="${HOME}/.local/bin/.neovim"
@@ -8,14 +10,6 @@ PACKER_REPO="https://github.com/wbthomason/packer.nvim"
 PACKER_DST="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
 PACKER_DIR="$(dirname "${PACKER_DST}")"
 NVIM_DEPS=(gettext ripgrep fzf xclip)
-
-RED='\e[0;31m'
-GRN='\e[0;32m'
-RST='\e[0m'
-
-function _err() { echo -e "${RED}!ERR: $* ${RST}" >&2; }
-function _info() { echo -e "${GRN}INFO: $* ${RST}"; }
-
 
 if [ "$(id -u)" -ne 0 ]; then
   _err "must run as root"
