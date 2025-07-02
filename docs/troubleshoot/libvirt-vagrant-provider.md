@@ -37,10 +37,35 @@ virt-manager
 > ```bash
 > pyenv global system
 > ```
+> [source](https://stackoverflow.com/a/54114370/22415851)
+
+### Problem: `Failed to connect socket to '/run/libvirt/virtlogd-sock': Connection refused (Libvirt::Error)`
+
+```bash
+# pull an alpine VM image that uses the "libvirt provider":
+vagrant box add generic/alpine318 --provider libvirt
+
+# create a fresh Vagrantfile using the pulled VM image:
+vagrant init generic/alpine318
+
+# attempt to bring-up the VM:
+vagrant up --provider=libvirt
+# ...
+#/home/user/.vagrant.d/gems/3.4.4/gems/fog-libvirt-0.13.2/lib/fog/libvirt/requests/compute/vm_action.rb:7:in 'Libvirt::Domain#create': Call to virDomainCreate failed:
+# Failed to connect socket to '/run/libvirt/virtlogd-sock': Connection refused (Libvirt::Error)
+```
 
 ## Misc
 
 ```bash
 # properly remove packages
-sudo pacman -Rns <PKG>
+sudo pacman -Rns SOME_PKG_TO_REMOVE
+
+# inspect libvirt components
+journalctl -u libvirtd.service -f
+journalctl -u libvirtd.socket -f
+
+# restart libvirt components
+systemctl restart libvirtd.service
+systemctl restart libvirtd.socket
 ```
