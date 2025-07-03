@@ -42,9 +42,10 @@ function install_extras() {
 
 sudo apt-get update && sudo apt-get install -y "${DEPS[@]}"
 setup_dotfiles
-install_nvim_ide
-install_pyenv 3.12
 install_extras
-sudo ./tasks/docker.sh
-sudo ./tasks/nvim.sh
-sudo ./tasks/pyenv.sh
+(
+  cd tasks
+  sudo ./docker.sh
+  sudo ./nvim.sh
+  sudo ./pyenv.sh 3.12
+)
