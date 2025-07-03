@@ -16,6 +16,9 @@ sudo apt-get remove "${UNWANTED_PKGS[@]}"
 # invoke the docker install script (if docker is not already installed)
 which docker &> /dev/null  || curl -fsSL https://get.docker.com | sh
 
+# TODO: handle failure modes of steps under here more elegantly
+set +e
+
 # ensure user can access the docker.socket
 sudo groupadd docker
 sudo usermod -aG docker "${SUDO_USER}"

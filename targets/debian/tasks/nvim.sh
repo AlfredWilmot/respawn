@@ -4,7 +4,7 @@ set -e
 
 source utils.sh
 
-NVIM_VER=0.9
+NVIM_VER=0.11
 NVIM_DST="${HOME}/.local/bin/.neovim"
 PACKER_REPO="https://github.com/wbthomason/packer.nvim"
 PACKER_DST="${HOME}/.local/share/nvim/site/pack/packer/start/packer.nvim"
