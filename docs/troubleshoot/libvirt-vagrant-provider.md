@@ -55,6 +55,12 @@ vagrant up --provider=libvirt
 # Failed to connect socket to '/run/libvirt/virtlogd-sock': Connection refused (Libvirt::Error)
 ```
 
+### Problem: `No Internet Conection with libvirt NAT`
+The solution is outlined [here](https://bbs.archlinux.org/viewtopic.php?id=284664):
+> setting `firewall_backend=iptables` in `/etc/libvirt/network.conf`
+
+__NOTE__: you must restart the `libvirtd.service` before these changes can take effect.
+
 ## Misc
 
 ```bash
@@ -69,3 +75,19 @@ journalctl -u libvirtd.socket -f
 systemctl restart libvirtd.service
 systemctl restart libvirtd.socket
 ```
+
+## References
+
+- [libvrit networking](https://wiki.libvirt.org/VirtualNetworking.html)
+
+- [qemu driver for libvirt](https://libvirt.org/drvqemu.html):
+> ```
+> qemu:///system      /etc/libvirt/qemu.conf
+> qemu:///session     $XDG_CONFIG_HOME/libvirt/qemu.conf
+> qemu:///embed       $rootdir/etc/qemu.conf
+> ```
+> If `$XDG_CONFIG_HOME` is not set in the environment, it defaults to `$HOME/.config`.
+> For the embed URI the $rootdir represents the specified root directory from the connection URI.
+> Please note, that it is very likely that the only `qemu.conf` file that will exist after installing libvirt is the `/etc/libvirt/qemu.conf`,
+> if users of the session daemon or the embed driver want to override a built in value,
+> then they need to create the file before connecting to the respective URI.
