@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  # -------------------------------- #
+  # COMMON STEPS REGARDLESS OF GUEST #
+  # -------------------------------- #
+
+  # guest resource allocation
+  config.vm.provider.cpus = 4
+  config.vm.provider.memory = 8192
+
+  # make guest discoverable on host network interface
+  config.vm.network "public_network"
+
+  # forwarding perms to enable development work
+  config.vm.provision "file", source: "~/.gitconfig", destination: "${HOME}/.gitconfig"
+  config.ssh.forward_agent = true
+
+  # prefer a user-defined synced folder
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  alpine.vm.synced_folder "./share", "/home/vagrant/share"
+
+  # -------------------------------- #
+  # FINAL STEPS UNIQUE TO EACH GUEST #
+  # -------------------------------- #
+
+  # vagrant up alpine
+  config.vm.define "alpine", primary: true do |alpine|
+    alpine.vm.box = "generic/alpine318"
+    alpine.vm.provision "file", source: "./provision/alpine/tasks", destination: "${HOME}/tasks"
+    config.vm.provision "shell", path: "./provision/alpine/setup.sh", privileged: false
+  end
+
+  # vagrant up debian
+  config.vm.define "debian", autostart: false do |debian|
+    debian.vm.box = "generic/debian12"
+    debian.vm.provision "file", source: "./provision/debian/tasks", destination: "${HOME}/tasks"
+    debian.vm.provision "shell", path: "./provision/debian/setup.sh", privileged: false
+  end
+
+  # vagrant up centos
+  config.vm.define "centos", autostart: false do |centos|
+    centos.vm.box = "generic/centos7"
+    centos.vm.provision "file", source: "./provision/centos/tasks", destination: "${HOME}/tasks"
+    centos.vm.provision "shell", path: "./provision/centos/setup.sh", privileged: false
+  end
+
+end
