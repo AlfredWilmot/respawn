@@ -2,7 +2,7 @@
 
 set -e
 
-source utils.sh
+. ../utils.sh
 
 PYENV_DST="${HOME}/.pyenv"
 VIRTUALENV_PLUGIN_DST="${HOME}/.pyenv/plugins/pyenv-virtualenv"

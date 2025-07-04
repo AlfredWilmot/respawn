@@ -2,7 +2,7 @@
 
 set -e
 
-source utils.sh
+. ../utils.sh
 
 if [ "$(id -u)" -ne 0 ]; then
   _err "must run as root"
