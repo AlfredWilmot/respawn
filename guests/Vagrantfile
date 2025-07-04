@@ -1,18 +1,28 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
 Vagrant.configure("2") do |config|
 
   # -------------------------------- #
   # COMMON STEPS REGARDLESS OF GUEST #
   # -------------------------------- #
 
-  # guest resource allocation
-  config.vm.provider.cpus = 4
-  config.vm.provider.memory = 8192
+  # indicate the preferred provider
+  config.vm.provider "libvirt"
 
-  # make guest discoverable on host network interface
-  config.vm.network "public_network"
+  # guest resource allocation
+  config.vm.provider "libvirt" do |lv|
+    lv.memory = 2048
+    lv.cpus = 2
+  end
+
+  # make guest discoverable on a host network interface
+  config.vm.network "private_network", type: "dhcp", auto_config: false
+
+  # port-forwarding from guest to host
+  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # forwarding perms to enable development work
   config.vm.provision "file", source: "~/.gitconfig", destination: "${HOME}/.gitconfig"
@@ -20,7 +30,7 @@ Vagrant.configure("2") do |config|
 
   # prefer a user-defined synced folder
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  alpine.vm.synced_folder "./share", "/home/vagrant/share"
+  config.vm.synced_folder "./share", "/home/vagrant/share"
 
   # -------------------------------- #
   # FINAL STEPS UNIQUE TO EACH GUEST #
@@ -30,7 +40,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "alpine", primary: true do |alpine|
     alpine.vm.box = "generic/alpine318"
     alpine.vm.provision "file", source: "./provision/alpine/tasks", destination: "${HOME}/tasks"
-    config.vm.provision "shell", path: "./provision/alpine/setup.sh", privileged: false
+    alpine.vm.provision "shell", path: "./provision/alpine/setup.sh", privileged: false
   end
 
   # vagrant up debian
