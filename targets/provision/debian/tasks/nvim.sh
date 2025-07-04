@@ -2,7 +2,7 @@
 
 set -e
 
-source utils.sh
+. ../utils.sh
 
 NVIM_VER=0.11
 NVIM_DST="${HOME}/.local/bin/.neovim"
