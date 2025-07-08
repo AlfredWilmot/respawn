@@ -12,17 +12,13 @@ Vagrant.configure("2") do |config|
   # indicate the preferred provider
   config.vm.provider "libvirt"
 
+  config.ssh.insert_key = false
+
   # guest resource allocation
   config.vm.provider "libvirt" do |lv|
     lv.memory = 2048
     lv.cpus = 2
   end
-
-  # make guest discoverable on a host network interface
-  config.vm.network "private_network", type: "dhcp", auto_config: false
-
-  # port-forwarding from guest to host
-  config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # forwarding perms to enable development work
   config.vm.provision "file", source: "~/.gitconfig", destination: "${HOME}/.gitconfig"
@@ -39,22 +35,33 @@ Vagrant.configure("2") do |config|
   # vagrant up alpine
   config.vm.define "alpine", primary: true do |alpine|
     alpine.vm.box = "generic/alpine318"
+    alpine.vm.hostname = "alpine.test"
+    alpine.vm.network :private_network, ip: "192.168.50.121"
     alpine.vm.provision "file", source: "./provision/alpine/tasks", destination: "${HOME}/tasks"
-    alpine.vm.provision "shell", path: "./provision/alpine/setup.sh", privileged: false
   end
 
   # vagrant up debian
   config.vm.define "debian", autostart: false do |debian|
     debian.vm.box = "generic/debian12"
+    debian.vm.hostname = "debian.test"
+    debian.vm.network :private_network, ip: "192.168.50.122"
     debian.vm.provision "file", source: "./provision/debian/tasks", destination: "${HOME}/tasks"
-    debian.vm.provision "shell", path: "./provision/debian/setup.sh", privileged: false
   end
 
-  # vagrant up centos
-  config.vm.define "centos", autostart: false do |centos|
-    centos.vm.box = "generic/centos7"
-    centos.vm.provision "file", source: "./provision/centos/tasks", destination: "${HOME}/tasks"
-    centos.vm.provision "shell", path: "./provision/centos/setup.sh", privileged: false
+  # vagrant up fedora
+  config.vm.define "fedora", autostart: false do |fedora|
+    fedora.vm.box = "generic/fedora38"
+    fedora.vm.hostname = "debian.test"
+    fedora.vm.network :private_network, ip: "192.168.50.123"
+    fedora.vm.provision "file", source: "./provision/fedora/tasks", destination: "${HOME}/tasks"
+
+    # only provision VM if explicity requested
+    if ARGV.include? '--provision'
+      fedora.vm.provision "ansible" do |ansible|
+        ansible.playbook = "./provision/fedora/playbook.yml"
+      end
+    end
+
   end
 
 end
