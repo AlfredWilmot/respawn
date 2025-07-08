@@ -31,7 +31,7 @@ DEPS=(
   # sysadmin #
   # -------- #
   shadow stow tmux man curl openssh npm
-  fzf xclip
+  fzf xclip ansible
 
   # ----------------------------------- #
   # languages, LSPs, linters, debuggers #
