@@ -2,7 +2,7 @@
 
 set -e
 
-. utils.sh
+. ./tasks/utils.sh
 
 DOTFILES="${HOME}/.dotfiles"
 

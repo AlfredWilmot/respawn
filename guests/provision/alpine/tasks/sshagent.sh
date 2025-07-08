@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # SETUP THE SSHAGENT WITH A PREEXISTING SSHKEY #
 
-. ../utils.sh
+. utils.sh
 
 KEY_PATH="${HOME}/.ssh/id_rsa"
 
