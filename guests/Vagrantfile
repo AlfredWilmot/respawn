@@ -49,16 +49,16 @@ Vagrant.configure("2") do |config|
   end
 
   # vagrant up fedora
-  config.vm.define "fedora", autostart: false do |fedora|
-    fedora.vm.box = "generic/fedora38"
-    fedora.vm.hostname = "debian.test"
-    fedora.vm.network :private_network, ip: "192.168.50.123"
-    fedora.vm.provision "file", source: "./provision/fedora/tasks", destination: "${HOME}/tasks"
+  config.vm.define "openbsd", autostart: false do |openbsd|
+    openbsd.vm.box = "generic/openbsd7"
+    openbsd.vm.hostname = "openbsd.test"
+    openbsd.vm.network :private_network, ip: "192.168.50.123"
+    openbsd.vm.provision "file", source: "./provision/openbsd/tasks", destination: "${HOME}/tasks"
 
     # only provision VM if explicity requested
     if ARGV.include? '--provision'
-      fedora.vm.provision "ansible" do |ansible|
-        ansible.playbook = "./provision/fedora/playbook.yml"
+      openbsd.vm.provision "ansible" do |ansible|
+        ansible.playbook = "./provision/openbsd/playbook.yml"
       end
     end
 
