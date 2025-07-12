@@ -3,65 +3,62 @@
 
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
 
-Vagrant.configure("2") do |config|
-
+Vagrant.configure('2') do |config|
   # -------------------------------- #
   # COMMON STEPS REGARDLESS OF GUEST #
   # -------------------------------- #
 
   # indicate the preferred provider
-  config.vm.provider "libvirt"
+  config.vm.provider 'libvirt'
 
   config.ssh.insert_key = false
 
   # guest resource allocation
-  config.vm.provider "libvirt" do |lv|
+  config.vm.provider 'libvirt' do |lv|
     lv.memory = 2048
     lv.cpus = 2
   end
 
   # forwarding perms to enable development work
-  config.vm.provision "file", source: "~/.gitconfig", destination: "${HOME}/.gitconfig"
+  config.vm.provision 'file', source: '~/.gitconfig', destination: '${HOME}/.gitconfig'
   config.ssh.forward_agent = true
 
   # prefer a user-defined synced folder
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "./share", "/home/vagrant/share"
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder './share', '/home/vagrant/share'
 
   # -------------------------------- #
   # FINAL STEPS UNIQUE TO EACH GUEST #
   # -------------------------------- #
 
   # vagrant up alpine
-  config.vm.define "alpine", primary: true do |alpine|
-    alpine.vm.box = "generic/alpine318"
-    alpine.vm.hostname = "alpine.test"
-    alpine.vm.network :private_network, ip: "192.168.50.121"
-    alpine.vm.provision "file", source: "./provision/alpine/tasks", destination: "${HOME}/tasks"
+  config.vm.define 'alpine', primary: true do |alpine|
+    alpine.vm.box = 'generic/alpine318'
+    alpine.vm.hostname = 'alpine.test'
+    alpine.vm.network :private_network, ip: '192.168.50.121'
+    alpine.vm.provision 'file', source: './provision/alpine/tasks', destination: '${HOME}/tasks'
   end
 
   # vagrant up debian
-  config.vm.define "debian", autostart: false do |debian|
-    debian.vm.box = "generic/debian12"
-    debian.vm.hostname = "debian.test"
-    debian.vm.network :private_network, ip: "192.168.50.122"
-    debian.vm.provision "file", source: "./provision/debian/tasks", destination: "${HOME}/tasks"
+  config.vm.define 'debian', autostart: false do |debian|
+    debian.vm.box = 'generic/debian12'
+    debian.vm.hostname = 'debian.test'
+    debian.vm.network :private_network, ip: '192.168.50.122'
+    debian.vm.provision 'file', source: './provision/debian/tasks', destination: '${HOME}/tasks'
   end
 
   # vagrant up fedora
-  config.vm.define "openbsd", autostart: false do |openbsd|
-    openbsd.vm.box = "generic/openbsd7"
-    openbsd.vm.hostname = "openbsd.test"
-    openbsd.vm.network :private_network, ip: "192.168.50.123"
-    openbsd.vm.provision "file", source: "./provision/openbsd/tasks", destination: "${HOME}/tasks"
+  config.vm.define 'openbsd', autostart: false do |openbsd|
+    openbsd.vm.box = 'generic/openbsd7'
+    openbsd.vm.hostname = 'openbsd.test'
+    openbsd.vm.network :private_network, ip: '192.168.50.123'
+    openbsd.vm.provision 'file', source: './provision/openbsd/tasks', destination: '${HOME}/tasks'
 
     # only provision VM if explicity requested
     if ARGV.include? '--provision'
-      openbsd.vm.provision "ansible" do |ansible|
-        ansible.playbook = "./provision/openbsd/playbook.yml"
+      openbsd.vm.provision 'ansible' do |ansible|
+        ansible.playbook = './provision/openbsd/playbook.yml'
       end
     end
-
   end
-
 end
