@@ -10,15 +10,18 @@ Vagrant.configure('2') do |config|
   # COMMON STEPS REGARDLESS OF GUEST #
   # -------------------------------- #
 
+  # Ensure the 'vagrant-libvirt' plugin is installed:
+  config.vagrant.plugins = 'vagrant-libvirt'
+
   # indicate the preferred provider
   config.vm.provider 'libvirt'
 
   config.ssh.insert_key = false
 
   # guest resource allocation
-  config.vm.provider 'libvirt' do |lv|
-    lv.memory = 2048
-    lv.cpus = 2
+  config.vm.provider 'libvirt' do |libvirt|
+    libvirt.memory = 2048
+    libvirt.cpus = 2
   end
 
   # forwarding perms to enable development work
