@@ -76,6 +76,8 @@ DEPS=(
   # virtualisation #
   # -------------- #
   vagrant virtualbox virtualbox-guest-utils-nox virtualbox-host-modules-arch
+  libvirt virtiofsd libvirt-python virt-manager libvirt-glib virt-install
+  qemu qemu-full qemu-emulators-full qemu-docs
   docker docker-buildx docker-compose
 
   # ----------- #
