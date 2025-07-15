@@ -20,17 +20,19 @@ Vagrant.configure('2') do |config|
 
   # guest resource allocation
   config.vm.provider 'libvirt' do |libvirt|
-    libvirt.memory = 2048
     libvirt.cpus = 2
+    libvirt.numa_nodes = [{ cpus: '0-1', memory: 8192, memAccess: 'shared' }]
+    libvirt.memorybacking :access, mode: 'shared'
   end
+
+  # prefer a user-defined synced folder
+  # (https://vagrant-libvirt.github.io/vagrant-libvirt/examples.html#synced-folders)
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder './share', '/home/vagrant/share', type: 'virtiofs'
 
   # forwarding perms to enable development work
   config.vm.provision 'file', source: '~/.gitconfig', destination: '${HOME}/.gitconfig'
   config.ssh.forward_agent = true
-
-  # prefer a user-defined synced folder
-  config.vm.synced_folder '.', '/vagrant', disabled: true
-  config.vm.synced_folder './share', '/home/vagrant/share'
 
   # -------------------------------- #
   # FINAL STEPS UNIQUE TO EACH GUEST #
