@@ -21,7 +21,7 @@ Vagrant.configure('2') do |config|
   # guest resource allocation
   config.vm.provider 'libvirt' do |libvirt|
     libvirt.cpus = 2
-    libvirt.numa_nodes = [{ cpus: '0-1', memory: 8192, memAccess: 'shared' }]
+    libvirt.numa_nodes = [{ cpus: '0-1', memory: 4096, memAccess: 'shared' }]
     libvirt.memorybacking :access, mode: 'shared'
   end
 
