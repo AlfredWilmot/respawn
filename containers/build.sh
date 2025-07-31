@@ -13,8 +13,9 @@ EOF
 fi
 
 DOCKERFILE="${1}"
+REPOSITORY="respawn"
 TAG="$(echo "${DOCKERFILE}"| awk -F '.' '{print $1}')"
 shift
 
 set -x
-docker build -t "${TAG}" -f "${DOCKERFILE}" "${@}" .
+docker build -t "${REPOSITORY}:${TAG}" -f "${DOCKERFILE}" "${@}" .
