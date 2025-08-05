@@ -8,13 +8,18 @@ cat << EOF 1>&2
 Usage: ${0} -p ISO_PATH [-u ISO_URL | -s ISO_SHA256SUM]
 Create a bootable USB from an ISO file.
 
-  -p	path to ISO file
+  -p  path to ISO file
   -u  [optional] iso download url
   -s  [optional] the iso's expected sha256 checksum
   -t  [optional] the target block device
 EOF
 	return 1
 }
+
+if [ "$(id -u)" -ne 0 ]; then
+  echo "must run as root" 1>&2
+  exit 1
+fi
 
 while getopts "t:u:p:s:h" opt; do
     case "$opt" in
