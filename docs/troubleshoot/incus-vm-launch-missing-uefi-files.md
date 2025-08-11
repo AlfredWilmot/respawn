@@ -111,3 +111,127 @@ incus exec test-vm /bin/bash
 # SUPPORT_URL="https://www.debian.org/support"
 # BUG_REPORT_URL="https://bugs.debian.org/"
 ```
+
+---
+
+# Continued
+
+I think that because the ISO used by the `talos-vm` does not have the `incus-agent` running
+on it, incus is unable to setup a route to the host automatically.
+
+```bash
+incus launch images:debian/12 --vm test-vm -c security.secureboot=false
+incus list
+```
+
+```text
++----------+---------+-----------------------+------+-----------------+-----------+
+|   NAME   |  STATE  |         IPV4          | IPV6 |      TYPE       | SNAPSHOTS |
++----------+---------+-----------------------+------+-----------------+-----------+
+| talos-vm | RUNNING | 10.90.225.121 (eth0)  |      | VIRTUAL-MACHINE | 0         |
++----------+---------+-----------------------+------+-----------------+-----------+
+| test-vm  | RUNNING | 10.90.225.52 (enp5s0) |      | VIRTUAL-MACHINE | 0         |
++----------+---------+-----------------------+------+-----------------+-----------+
+```
+
+```bash
+incus info talos-vm
+```
+
+```text
+Name: talos-vm
+Description:
+Status: RUNNING
+Type: virtual-machine
+Architecture: x86_64
+PID: 10756
+Created: 2025/08/11 15:14 BST
+Last Used: 2025/08/11 15:20 BST
+Started: 2025/08/11 15:20 BST
+
+Resources:
+  Processes: -1
+  Network usage:
+    eth0:
+      Type: broadcast
+      State: UP
+      Host interface: tap28adb503
+      MAC address: 10:66:6a:6b:37:a1
+      MTU: 1500
+      Bytes received: 5.92kB
+      Bytes sent: 1.56kB
+      Packets received: 78
+      Packets sent: 4
+      IP addresses:
+        inet:  10.90.225.121/24 (global)
+```
+
+```bash
+incus info test-vm
+```
+
+```text
+Name: test-vm
+Description:
+Status: RUNNING
+Type: virtual-machine
+Architecture: x86_64
+PID: 12203
+Created: 2025/08/11 15:36 BST
+Last Used: 2025/08/11 15:37 BST
+Started: 2025/08/11 15:37 BST
+
+Operating System:
+  OS: Debian GNU/Linux
+  OS Version: 12
+  Kernel Version: 6.1.0-37-amd64
+  Hostname: test-vm
+  FQDN: localhost
+
+Resources:
+  Processes: 11
+  CPU usage:
+    CPU usage (in seconds): 3
+  Memory usage:
+    Memory (current): 234.42MiB
+  Network usage:
+    enp5s0:
+      Type: broadcast
+      State: UP
+      Host interface: tap486c2366
+      MAC address: 10:66:6a:9a:06:a2
+      MTU: 1500
+      Bytes received: 1.01kB
+      Bytes sent: 2.77kB
+      Packets received: 7
+      Packets sent: 29
+      IP addresses:
+        inet:  10.90.225.52/24 (global)
+        inet6: fe80::1266:6aff:fe9a:6a2/64 (link)
+    lo:
+      Type: loopback
+      State: UP
+      MTU: 65536
+      Bytes received: 0B
+      Bytes sent: 0B
+      Packets received: 0
+      Packets sent: 0
+      IP addresses:
+        inet:  127.0.0.1/8 (local)
+        inet6: ::1/128 (local)
+```
+
+I installed `talosctl` using the [install script](https://www.talos.dev/v1.10/talos-guides/install/talosctl/#alternative-install)
+(after reviewing the script, of course!).
+
+Using the [vagrant + libvirt](https://www.talos.dev/v1.10/talos-guides/install/virtualized-platforms/vagrant-libvirt/#preparing-the-environment)
+talos setup example as a reference:
+
+```bash
+talosctl -n 10.90.225.121 get disks --insecure
+```
+
+```text
+rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial tcp
+10.90.225.121:50000: connect: no route to host"
+```
