@@ -8,7 +8,10 @@ DEPS=(
   # ------------ #
   # GUI/TUI Apps #
   # ------------ #
-  vlc firefox flameshot peek neovim
+  vlc zvbi
+  # - https://wiki.archlinux.org/title/Webcam_setup#VLC
+  #
+  firefox flameshot peek neovim
   zathura zathura-pdf-mupdf
   inkscape vlc-plugin-ffmpeg
 
