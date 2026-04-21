@@ -1,0 +1,42 @@
+---
+- name: "Install Nvim {{ nvim_ver }}"
+  hosts: localhost
+  connection: local
+
+  vars:
+    nvim_ver: "v0.12.1"
+    nvim_dir: /opt/nvim-linux-x86_64
+
+  tasks:
+    - name: "Install Nvim deps"
+      become: true
+      ansible.builtin.package:
+        name:
+          - tar
+          - git
+          - make
+          - gettext
+          - ripgrep
+          - fzf
+          - xclip
+        state: latest
+
+    - name: "Download Nvim {{ nvim_ver }} release artifact"
+      become: false
+      ansible.builtin.get_url:
+        url: "https://github.com/neovim/neovim/releases/download/{{ nvim_ver }}/nvim-linux-x86_64.tar.gz"
+        dest: /tmp/nvim.tar.gz
+        checksum: sha256:ab757a1fd9ad307d53d2df4045698906a7ca3993d92260dd8fe49108712d57d0
+
+    - name: "Install Nvim {{ nvim_ver }} release artifact"
+      become: true
+      ansible.builtin.unarchive:
+        src: /tmp/nvim.tar.gz
+        dest: /opt
+
+    - name: "Ensure nvim bin is in PATH"
+      become: false
+      ansible.builtin.lineinfile:
+        path: ~/.bashrc
+        regexp: "^export PATH=.*{{ nvim_dir }}/bin"
+        line: 'export PATH="$PATH:{{ nvim_dir }}/bin"'
