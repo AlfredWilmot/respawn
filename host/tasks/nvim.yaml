@@ -1,5 +1,6 @@
 ---
 - name: "Install Nvim {{ nvim_ver }}"
+
   hosts: localhost
   connection: local
 
@@ -34,9 +35,13 @@
         src: /tmp/nvim.tar.gz
         dest: /opt
 
-    - name: "Ensure nvim bin is in PATH"
+    - name: "Ensure nvim and plugin bins in PATH"
       become: false
       ansible.builtin.lineinfile:
         path: ~/.bashrc
-        regexp: "^export PATH=.*{{ nvim_dir }}/bin"
-        line: 'export PATH="$PATH:{{ nvim_dir }}/bin"'
+        regexp: "^export PATH=.*{{ item }}.*$"
+        line: 'export PATH="${PATH}:{{ item }}"'
+        state: present
+      loop:
+        - "{{ nvim_dir }}/bin"
+        - "${HOME}/.local/share/nvim/mason/bin"
