@@ -1,0 +1,37 @@
+x-core: &core-common
+  stdin_open: true
+  tty: true
+
+x-build: &build-common
+  context: dockerfiles
+  cache_from:
+    - type=gha,scope=images,mode=max
+  cache_to:
+    - type=gha,scope=images
+
+services:
+  rust-dev:
+    <<: *core-common
+    image: ${CONTAINER_REGISTRY}/rust-dev:${IMG_TAG}
+    container_name: rust-dev
+    build:
+      <<: *build-common
+      dockerfile: rust-builder.Dockerfile
+      target: dev
+
+  cyclonedds:
+    <<: *core-common
+    image: ${CONTAINER_REGISTRY}/cyclonedds:${IMG_TAG}
+    container_name: cyclonedds
+    build:
+      <<: *build-common
+      dockerfile: cyclonedds.Dockerfile
+  dump1090:
+    <<: *core-common
+    image: ${CONTAINER_REGISTRY}/dump1090:${IMG_TAG}
+    container_name: dump1090
+    build:
+      <<: *build-common
+      dockerfile: dump1090.Dockerfile
+#    devices:
+#      - "${RTL_SDR}:/dev/ttyUSB0"
