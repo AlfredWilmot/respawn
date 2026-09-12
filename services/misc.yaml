@@ -1,0 +1,19 @@
+services:
+  cyclonedds:
+    image: ${CONTAINER_REGISTRY}/cyclonedds:${IMG_TAG}
+    container_name: cyclonedds
+    stdin_open: true
+    tty: true
+    build:
+      context: ./dockerfiles/.
+      dockerfile: cyclonedds.Dockerfile
+  dump1090:
+    image: ${CONTAINER_REGISTRY}/dump1090:${IMG_TAG}
+    container_name: dump1090
+#    devices:
+#      - "${RTL_SDR}:/dev/ttyUSB0"
+    stdin_open: true
+    tty: true
+    build:
+      context: ./dockerfiles/.
+      dockerfile: dump1090.Dockerfile

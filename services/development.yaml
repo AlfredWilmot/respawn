@@ -1,0 +1,10 @@
+services:
+  rust-dev:
+    image: ${CONTAINER_REGISTRY}/rust-dev:${IMG_TAG}
+    container_name: rust-dev
+    stdin_open: true
+    tty: true
+    build:
+      context: ./dockerfiles/.
+      dockerfile: rust-builder.Dockerfile
+      target: dev
