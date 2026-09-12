@@ -6,7 +6,7 @@ apt-get update
 apt-get install -y build-essential debhelper librtlsdr-dev \
 pkg-config libncurses5-dev libbladerf-dev git
 
-git clone https://github.com/flightaware/dump1090.git
+git clone https://github.com/flightaware/dump1090.git /dump1090
 
 EOF
 
