@@ -76,6 +76,58 @@ systemctl restart libvirtd.service
 systemctl restart libvirtd.socket
 ```
 
+## Usage
+
+Here is a `Vagrantfile` sample that leverages the `libvirt` backend:
+
+```ruby
+# frozen_string_literal: true
+
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# NOTE: no guests specified, this file serves purely as a reference for libvirt integration.
+
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+Vagrant.configure('2') do |config|
+  # -------------------------------- #
+  # COMMON STEPS REGARDLESS OF GUEST #
+  # -------------------------------- #
+
+  # Ensure the 'vagrant-libvirt' plugin is installed:
+  config.vagrant.plugins = 'vagrant-libvirt'
+
+  # indicate the preferred provider
+  config.vm.provider 'libvirt'
+
+  config.ssh.insert_key = false
+
+  # guest resource allocation
+  config.vm.provider 'libvirt' do |libvirt|
+    libvirt.cpus = 2
+    libvirt.numa_nodes = [{ cpus: '0-1', memory: 4096, memAccess: 'shared' }]
+    libvirt.memorybacking :access, mode: 'shared'
+  end
+
+  # prefer a user-defined synced folder
+  # (https://vagrant-libvirt.github.io/vagrant-libvirt/examples.html#synced-folders)
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+  config.vm.synced_folder './share', '/home/vagrant/share', type: 'virtiofs'
+
+  # forwarding perms to enable development work
+  config.vm.provision 'file', source: '~/.gitconfig', destination: '${HOME}/.gitconfig'
+  config.ssh.forward_agent = true
+
+  # ------------------------------------- #
+  # FOLLOW-UP STEPS FOR PARTICULAR GUESTS #
+  # ------------------------------------- #
+
+  # ...
+
+end
+```
+
 ## References
 
 - [libvrit networking](https://wiki.libvirt.org/VirtualNetworking.html)

@@ -8,7 +8,10 @@ DEPS=(
   # ------------ #
   # GUI/TUI Apps #
   # ------------ #
-  vlc firefox flameshot peek neovim
+  vlc zvbi
+  # - https://wiki.archlinux.org/title/Webcam_setup#VLC
+  #
+  firefox flameshot peek neovim
   zathura zathura-pdf-mupdf
   inkscape vlc-plugin-ffmpeg
 
@@ -31,7 +34,7 @@ DEPS=(
   # sysadmin #
   # -------- #
   shadow stow tmux man curl openssh npm
-  fzf xclip ansible
+  fzf xclip ansible usbutils
 
   # ----------------------------------- #
   # languages, LSPs, linters, debuggers #

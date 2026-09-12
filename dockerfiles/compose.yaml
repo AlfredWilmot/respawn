@@ -1,0 +1,31 @@
+services:
+  cyclonedds:
+    container_name: cyclonedds
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: cyclonedds.Dockerfile
+  dump1090:
+    container_name: dump1090
+    devices:
+      - "${RTL_SDR}:/dev/ttyUSB0"
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: dump1090.Dockerfile
+  rust-static-builder:
+    image: rust-static-builder:latest
+    container_name: rust-static-builder
+    build:
+      context: .
+      dockerfile: rust-static-builder.Dockerfile
+      target: final
+  rust-dev:
+    image: rust-dev:latest
+    container_name: rust-dev
+    build:
+      context: .
+      dockerfile: rust-static-builder.Dockerfile
+      target: dev

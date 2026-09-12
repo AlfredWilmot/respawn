@@ -34,6 +34,9 @@
       - rust
 
   - name: install build dependencies
+    become_user: root
+    async: 60
+    poll: 5
     ansible.builtin.apt:
       name: build-essential
       state: latest
