@@ -11,7 +11,7 @@ on:
 env:
   # NOTE: the registry must be lower-case, so use bash-param expansion when using the env-var (e.g. ${CONTAINER_REGISTRY,,})
   CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
-  IMAGE_TAG: ${{ github.ref }}
+  IMG_TAG: ${{ github.ref }}
   BUILDERS_YAML: "services/builders.yaml"
 
 jobs:
@@ -47,10 +47,10 @@ jobs:
           export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
           docker compose -f ${BUILDERS_YAML} build
 
-      - name: Publish Docker Builder Images
+      - name: Push Docker Builder Images
         run: |
           export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
-          docker compose -f ${BUILDERS_YAML} publish
+          docker compose -f ${BUILDERS_YAML} push
 
       - name: Install cosign
 #       if: ${{ github.event_name }} == 'release'
