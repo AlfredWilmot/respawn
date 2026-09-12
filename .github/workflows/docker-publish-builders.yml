@@ -9,9 +9,7 @@ on:
 # (https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context)
 
 env:
-  # NOTE:
-  # - the registry must be lower-case, this is handled via bash-param expansion further down (e.g. ${CONTAINER_REGISTRY,,})
-  # - some env-vars are used for overrides in docker-compose (hence not used directly in here)
+  # NOTE: some env-vars are used for overrides in docker-compose (hence not used directly in here)
   CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
   IMG_TAG: ${{ github.ref_name }}
   BUILDERS_YAML: "services/builders.yaml"
@@ -28,10 +26,13 @@ jobs:
 
     steps:
 
-      - name: Fix env-var syntax
+      - name: Sanitise env-vars
+        # NOTE:
+        # - CONTAINER_REGISTRY: lower-case (bash-param expansion)
+        # - IMG_TAG: lower-case (tr), remove any '@sha256:xxxx' suffix (cut)
         run: |
           echo "CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}" >> "${GITHUB_ENV}"
-          echo "IMG_TAG=${IMG_TAG,,}" >> "${GITHUB_ENV}"
+          echo "IMG_TAG=$(echo ${IMG_TAG} | tr [A-Z] [a-z] | cut -d @ -f 1)" >> "${GITHUB_ENV}"
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -68,11 +69,12 @@ jobs:
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
+
         run: |
           docker compose -f ${BUILDERS_YAML} config --images |
           while read -r image; do
             digest="$(docker buildx imagetools inspect "${image}" --format '{{json .Manifest.Digest}}')"
-            cosign sign --yes ${image}@${digest}
+            cosign sign --yes "${image}@${digest}"
           done
       # (https://github.com/sigstore/cosign)
       # (https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable)
