@@ -2,6 +2,6 @@ services:
   rust-builder:
     image: ${CONTAINER_REGISTRY}/rust-builder:${IMG_TAG}
     build:
-      context: ./dockerfiles/.
-      dockerfile: rust-builder.Dockerfile
+      context: .
+      dockerfile: dockerfiles/rust-builder.Dockerfile
       target: final

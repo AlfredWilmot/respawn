@@ -5,8 +5,8 @@ services:
     stdin_open: true
     tty: true
     build:
-      context: ./dockerfiles/.
-      dockerfile: cyclonedds.Dockerfile
+      context: .
+      dockerfile: dockerfiles/cyclonedds.Dockerfile
   dump1090:
     image: ${CONTAINER_REGISTRY}/dump1090:${IMG_TAG}
     container_name: dump1090
@@ -15,5 +15,5 @@ services:
     stdin_open: true
     tty: true
     build:
-      context: ./dockerfiles/.
-      dockerfile: dump1090.Dockerfile
+      context: .
+      dockerfile: dockerfiles/dump1090.Dockerfile
