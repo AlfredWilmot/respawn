@@ -9,6 +9,7 @@ on:
 # (https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context)
 
 env:
+  # NOTE: the registry must be lower-case, so use bash-param expansion when using the env-var (e.g. ${CONTAINER_REGISTRY,,})
   CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
   IMAGE_TAG: ${{ github.ref }}
   BUILDERS_YAML: "services/builders.yaml"
@@ -42,20 +43,24 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Builder Images
-        run: docker compose -f ${BUILDERS_YAML} build
+        run: |
+          export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
+          docker compose -f ${BUILDERS_YAML} build
 
       - name: Publish Docker Builder Images
-        run: docker compose -f ${BUILDERS_YAML} publish
+        run: |
+          export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
+          docker compose -f ${BUILDERS_YAML} publish
 
       - name: Install cosign
-#       if: github.event_name == 'release'
+#       if: ${{ github.event_name }} == 'release'
         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
         with:
           cosign-release: 'v2.2.4'
       # (https://github.com/sigstore/cosign-installer)
 
       - name: Sign the published Docker image on Release
-#       if: ${{ github.event_name == 'release' }}
+#       if: ${{ github.event_name }} == 'release'
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
