@@ -52,11 +52,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Builder Images
-        # NOTE: using bake to enable setting cache-from/to directives for github actions,
-        # while still leveraging the compose yaml
+        # NOTE:
+        # - bake to enable setting cache-from/to directives for github actions, while still leveraging the compose yaml
+        # - docker compose to generate json containing contexts with absolute path on host, prevent bake path issues
         run: |
-          docker buildx bake \
-            -f ${BUILDERS_YAML} \
+          docker compose -f ${BUILDERS_YAML} config --format json > compose.json
+          docker buildx bake -f compose.json \
             --set="*.cache-from=type=gha,scope=images" \
             --set="*.cache-to=type=gha,mode=max,scope=images"
 
