@@ -9,9 +9,11 @@ on:
 # (https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context)
 
 env:
-  # NOTE: the registry must be lower-case, so use bash-param expansion when using the env-var (e.g. ${CONTAINER_REGISTRY,,})
+  # NOTE:
+  # - the registry must be lower-case, this is handled via bash-param expansion further down (e.g. ${CONTAINER_REGISTRY,,})
+  # - some env-vars are used for overrides in docker-compose (hence not used directly in here)
   CONTAINER_REGISTRY: ghcr.io/${{ github.repository }}
-  IMG_TAG: ${{ github.ref }}
+  IMG_TAG: ${{ github.ref_name }}
   BUILDERS_YAML: "services/builders.yaml"
 
 jobs:
@@ -25,6 +27,12 @@ jobs:
       id-token: write
 
     steps:
+
+      - name: Fix env-var syntax
+        run: |
+          echo "CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}" >> "${GITHUB_ENV}"
+          echo "IMG_TAG=${IMG_TAG,,}" >> "${GITHUB_ENV}"
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -43,14 +51,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker Builder Images
-        run: |
-          export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
-          docker compose -f ${BUILDERS_YAML} build
+        run: docker compose -f ${BUILDERS_YAML} build
 
       - name: Push Docker Builder Images
-        run: |
-          export CONTAINER_REGISTRY=${CONTAINER_REGISTRY,,}
-          docker compose -f ${BUILDERS_YAML} push
+        run: docker compose -f ${BUILDERS_YAML} push
 
       - name: Install cosign
 #       if: ${{ github.event_name }} == 'release'
