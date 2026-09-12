@@ -73,7 +73,7 @@ jobs:
         run: |
           docker compose -f ${BUILDERS_YAML} config --images |
           while read -r image; do
-            digest="$(docker buildx imagetools inspect "${image}" --format '{{json .Manifest.Digest}}')"
+            digest="$(docker buildx imagetools inspect "${image}" --format '{{json .Manifest.Digest}}' | tr -d \"\')"
             cosign sign --yes "${image}@${digest}"
           done
       # (https://github.com/sigstore/cosign)
