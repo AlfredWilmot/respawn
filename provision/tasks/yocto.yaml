@@ -3,6 +3,12 @@
 
   hosts: builders
 
+  vars:
+    bitbake_source: "source ./bitbake-builds/poky-wrynose/build/init-build-env"
+    bitbake_image: "core-image-full-cmdline"
+    bitbake_config_fragments:
+      - "core/yocto/root-login-with-empty-password"
+
   tasks:
     - name: "Install Yocto deps"
       become: true
@@ -53,10 +59,30 @@
         state: present
         virtualenv: "${HOME}/.venv"
 
-    - name: "Ensure bitbake-setup bin in .venv is in PATH"
-      become: false
-      ansible.builtin.lineinfile:
-        path: ~/.bashrc
-        regexp: "^export PATH=.*$"
-        line: 'export PATH="${HOME}/.venv/bin:${PATH}"'
+    - name: "Enable user namespaces for unprivileged processses"
+      become: true
+      ansible.posix.sysctl:
+        name: kernel.apparmor_restrict_unprivileged_userns
+        value: "0"
         state: present
+        reload: true
+
+    - name: "Initialise bitbake project"
+      ansible.builtin.command:
+        cmd: bitbake-setup init --non-interactive poky-wrynose poky-with-sstate distro/poky machine/qemux86-64
+        creates: "${HOME}/bitbake-builds"
+
+    - name: "Allow root login for dev image"
+      ansible.builtin.shell: |
+        {{ bitbake_source }}
+        bitbake-config-build enable-fragment {{ item }}
+      args:
+        executable: /bin/bash
+      loop: "{{ bitbake_config_fragments }}"
+
+    - name: "Build console-only dev image"
+      ansible.builtin.shell: |
+        {{ bitbake_source }}
+        bitbake {{ bitbake_image }}
+      args:
+        executable: /bin/bash

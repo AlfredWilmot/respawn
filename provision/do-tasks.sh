@@ -7,4 +7,4 @@ fi
 
 set -ex
 
-ansible-playbook -i inventory.ini --ask-become-pass "${1}"
+ansible-playbook -i inventory.ini --ask-become-pass "${@}"
