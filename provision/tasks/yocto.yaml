@@ -2,16 +2,14 @@
 - name: "Prepare Yocto build environment"
 
   hosts: builders
-
-  vars:
-    bitbake_source: "source ./bitbake-builds/poky-wrynose/build/init-build-env"
-    bitbake_image: "core-image-full-cmdline"
-    bitbake_config_fragments:
-      - "core/yocto/root-login-with-empty-password"
+  become: true
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: BECOME password
+      private: true
 
   tasks:
     - name: "Install Yocto deps"
-      become: true
       ansible.builtin.package:
         name:
           - build-essential
@@ -40,14 +38,32 @@
           - wget
           - xz-utils
           - zstd
+          - qemu-system  # (might not be needed)
         state: latest
 
     - name: "Ensure a locale exists"
-      become: true
       community.general.locale_gen:
         name: en_US.UTF-8
         state: present
 
+    - name: "Enable user namespaces for unprivileged processses"
+      ansible.posix.sysctl:
+        name: kernel.apparmor_restrict_unprivileged_userns
+        value: "0"
+        state: present
+        reload: true
+
+
+- name: "Prepare and build development bitbake project"
+
+  hosts: builders
+  vars:
+    bitbake_source: "source ./bitbake-builds/poky-wrynose/build/init-build-env"
+    bitbake_image: "core-image-full-cmdline"
+    bitbake_config_fragments:
+      - "core/yocto/root-login-with-empty-password"
+
+  tasks:
     - name: "Setup .venv"
       ansible.builtin.command:
         cmd: python3 -m venv "${HOME}/.venv"
@@ -58,14 +74,6 @@
         name: bitbake-setup
         state: present
         virtualenv: "${HOME}/.venv"
-
-    - name: "Enable user namespaces for unprivileged processses"
-      become: true
-      ansible.posix.sysctl:
-        name: kernel.apparmor_restrict_unprivileged_userns
-        value: "0"
-        state: present
-        reload: true
 
     - name: "Initialise bitbake project"
       ansible.builtin.command:
@@ -86,3 +94,10 @@
         bitbake {{ bitbake_image }}
       args:
         executable: /bin/bash
+
+    - name: "Run this to boot the image and get a serial console"
+      ansible.builtin.debug:
+        msg:
+          - " ssh -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ ansible_host }}"
+          - "{{ bitbake_source }}"
+          - "runqemu snapshot nographic"

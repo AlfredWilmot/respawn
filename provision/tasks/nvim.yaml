@@ -20,6 +20,7 @@
           - ripgrep
           - fzf
           - xclip
+          - nmp # required to install some LSPs (e.g. bash, bitbake)
         state: latest
 
     - name: "Download Nvim {{ nvim_ver }} release artifact"
