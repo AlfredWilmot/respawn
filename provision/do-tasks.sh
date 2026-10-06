@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
-set -ex -o pipefail
+if [ "${#}" -lt 2 ]; then
+  echo "Usage ${0} <hostname> <task>" >&2
+  exit 1
+fi
 
-ansible-playbook -K tasks/nvim.yaml
+set -ex
+
+ansible-playbook -i inventory.ini --limit "${@}"

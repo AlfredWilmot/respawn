@@ -1,0 +1,29 @@
+- name: "Register ssh key with target"
+
+  hosts: all
+
+  gather_facts: false
+
+  vars_prompt:
+    - name: ansible_ssh_pass
+      prompt: SSH password
+      private: true
+
+  tasks:
+
+    - name: "Setup SSH key pair"
+      community.crypto.openssh_keypair:
+        path: "{{ lookup('env', 'HOME') }}/.ssh/ansible"
+        size: 4096
+        regenerate: full_idempotence
+        backend: cryptography
+        private_key_format: ssh
+      delegate_to: localhost
+
+    - name: "Ensure public key from control server is present"
+      ansible.posix.authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/ansible.pub') }}"
+        manage_dir: true
+        exclusive: yes

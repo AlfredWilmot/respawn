@@ -1,0 +1,14 @@
+x-build: &build-common
+  context: dockerfiles
+  cache_from:
+    - type=gha,scope=images,mode=max
+  cache_to:
+    - type=gha,scope=images
+
+services:
+  rust-builder:
+    image: ${CONTAINER_REGISTRY}/rust-builder:${IMG_TAG}
+    build:
+      <<: *build-common
+      dockerfile: rust-builder.Dockerfile
+      target: final

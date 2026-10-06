@@ -1,0 +1,103 @@
+---
+- name: "Prepare Yocto build environment"
+
+  hosts: builders
+  become: true
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: BECOME password
+      private: true
+
+  tasks:
+    - name: "Install Yocto deps"
+      ansible.builtin.package:
+        name:
+          - build-essential
+          - chrpath
+          - cpio
+          - debianutils
+          - diffstat
+          - file
+          - gawk
+          - gcc
+          - git
+          - iputils-ping
+          - libacl1
+          - libcrypt-dev
+          - locales
+          - python3
+          - python3-git
+          - python3-jinja2
+          - python3-pexpect
+          - python3-pip
+          - python3-subunit
+          - python3-websockets
+          - socat
+          - texinfo
+          - unzip
+          - wget
+          - xz-utils
+          - zstd
+          - qemu-system  # (might not be needed)
+        state: latest
+
+    - name: "Ensure a locale exists"
+      community.general.locale_gen:
+        name: en_US.UTF-8
+        state: present
+
+    - name: "Enable user namespaces for unprivileged processses"
+      ansible.posix.sysctl:
+        name: kernel.apparmor_restrict_unprivileged_userns
+        value: "0"
+        state: present
+        reload: true
+
+
+- name: "Prepare and build development bitbake project"
+
+  hosts: builders
+  vars:
+    bitbake_source: "source ./bitbake-builds/poky-wrynose/build/init-build-env"
+    bitbake_image: "core-image-full-cmdline"
+    bitbake_config_fragments:
+      - "core/yocto/root-login-with-empty-password"
+
+  tasks:
+    - name: "Setup .venv"
+      ansible.builtin.command:
+        cmd: python3 -m venv "${HOME}/.venv"
+        creates: "${HOME}/.venv/bin/activate"
+
+    - name: "Install bitbake-setup via pip"
+      ansible.builtin.pip:
+        name: bitbake-setup
+        state: present
+        virtualenv: "${HOME}/.venv"
+
+    - name: "Initialise bitbake project"
+      ansible.builtin.command:
+        cmd: bitbake-setup init --non-interactive poky-wrynose poky-with-sstate distro/poky machine/qemux86-64
+        creates: "${HOME}/bitbake-builds"
+
+    - name: "Allow root login for dev image"
+      ansible.builtin.shell: |
+        {{ bitbake_source }}
+        bitbake-config-build enable-fragment {{ item }}
+      args:
+        executable: /bin/bash
+      loop: "{{ bitbake_config_fragments }}"
+
+    - name: "Build console-only dev image"
+      ansible.builtin.shell: |
+        {{ bitbake_source }}
+        bitbake {{ bitbake_image }}
+      args:
+        executable: /bin/bash
+
+    - name: "Run this to boot the image and get a serial console"
+      ansible.builtin.debug:
+        msg:
+          - " ssh -i {{ ansible_ssh_private_key_file }} {{ ansible_user }}@{{ ansible_host }}"
+          - "{{ bitbake_source }}"
+          - "runqemu snapshot nographic"
