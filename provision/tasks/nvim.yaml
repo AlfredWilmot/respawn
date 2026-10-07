@@ -1,12 +1,16 @@
 ---
 - name: "Install Nvim {{ nvim_ver }}"
 
-  hosts: localhost
-  connection: local
+  hosts: all
 
   vars:
     nvim_ver: "v0.12.1"
     nvim_dir: /opt/nvim-linux-x86_64
+
+  vars_prompt:
+    - name: ansible_become_pass
+      prompt: BECOME password
+      private: true
 
   tasks:
     - name: "Install Nvim deps"
@@ -20,11 +24,13 @@
           - ripgrep
           - fzf
           - xclip
-          - nmp # required to install some LSPs (e.g. bash, bitbake)
+          - npm # required to install some LSPs (e.g. bash, bitbake)
+          - stow
+          - tmux
+          - golang
         state: latest
 
     - name: "Download Nvim {{ nvim_ver }} release artifact"
-      become: false
       ansible.builtin.get_url:
         url: "https://github.com/neovim/neovim/releases/download/{{ nvim_ver }}/nvim-linux-x86_64.tar.gz"
         dest: /tmp/nvim.tar.gz
@@ -33,11 +39,11 @@
     - name: "Install Nvim {{ nvim_ver }} release artifact"
       become: true
       ansible.builtin.unarchive:
+        remote_src: true
         src: /tmp/nvim.tar.gz
         dest: /opt
 
     - name: "Ensure nvim and plugin bins in PATH"
-      become: false
       ansible.builtin.lineinfile:
         path: ~/.bashrc
         regexp: "^export PATH=.*{{ item }}.*$"
@@ -46,3 +52,14 @@
       loop:
         - "{{ nvim_dir }}/bin"
         - "${HOME}/.local/share/nvim/mason/bin"
+
+    - name: "Download IDE config"
+      ansible.builtin.git:
+        repo: "https://github.com/AlfredWilmot/dotfiles.git"
+        dest: "{{ ansible_env['HOME'] }}/.dotfiles"
+        version: dev #0.2.0
+
+    - name: "Apply config via stow"
+      ansible.builtin.command:
+        cmd: stow --adopt --no-folding .
+        chdir: "{{ ansible_env['HOME'] }}/.dotfiles"
