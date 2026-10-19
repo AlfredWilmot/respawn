@@ -1,0 +1,23 @@
+---
+
+- name: "TODO: Rotate expired GPG keys used for signing git commits"
+
+  hosts: all
+
+  gather_facts: false
+
+  vars_prompt:
+    - name: gpg_user
+      prompt: User Name
+      private: false
+    - name: gpg_email
+      prompt: Email Account
+      private: false
+
+  tasks:
+
+    # TODO: gather this info and print it in a presentable manner; handle errors gracefully
+
+    - name: "Generate GPG Key Info"
+      ansible.builtin.script: "./scripts/display-gpg-key-info.sh {{ gpg_email }}"
+      changed_when: false

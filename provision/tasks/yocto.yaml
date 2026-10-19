@@ -1,7 +1,7 @@
 ---
 - name: "Prepare Yocto build environment"
 
-  hosts: builders
+  hosts: all
   become: true
   vars_prompt:
     - name: ansible_become_pass
