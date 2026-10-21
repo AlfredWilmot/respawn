@@ -17,3 +17,4 @@ echo "-----------"
 # - [convert timestamp to datetime](https://stackoverflow.com/a/2371288/22415851)
 # - [managing gpg keys in ansible](https://oneuptime.com/blog/post/2026-02-21-ansible-manage-gpg-keys/view#managing-gpg-key-rotation)
 # - [how to verify commits on GH](https://daily-dev-tips.com/posts/how-to-verify-your-commits-on-github/)
+# - [safely clear misconfigured gpg.format in git config](https://stackoverflow.com/questions/73726815/git-commit-failed-couldnt-load-public-key#comment135267740_73816112)
